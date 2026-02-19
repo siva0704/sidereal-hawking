@@ -13,7 +13,7 @@ export const COLORS = {
 export const BUILDING_PHASES: ProcessPhase[] = [
   {
     id: 'pre-design',
-    title: 'Pre-Design',
+    title: 'Phase 1 - Pre-Design',
     steps: [
       'Architect Assignment',
       'Digital Survey',
@@ -25,9 +25,9 @@ export const BUILDING_PHASES: ProcessPhase[] = [
   },
   {
     id: 'design',
-    title: 'Design',
+    title: 'Phase 2 - Design',
     steps: [
-      '3D Floor Plan',
+      '2D Floor Plan',
       'Structural Design',
       'Final Quotation',
       'Elevation Design'
@@ -38,9 +38,9 @@ export const BUILDING_PHASES: ProcessPhase[] = [
   },
   {
     id: 'planning',
-    title: 'Planning',
+    title: 'Phase 3 - Planning',
     steps: [
-      'Contract/Schedule and Signing',
+      'Contract, Schedule and Signing',
       'Construction Partner Allocation',
       'Project Manager Assignment'
     ],
@@ -50,7 +50,7 @@ export const BUILDING_PHASES: ProcessPhase[] = [
   },
   {
     id: 'execution',
-    title: 'Execution',
+    title: 'Phase 4 - Execution',
     steps: [
       'Project Site Verification',
       'Quality Checks & Inspections',

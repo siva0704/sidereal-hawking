@@ -1,11 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { PROJECTS } from '@/lib/constants';
 import { ProjectCategory } from '@/types';
 import ProjectCard from './ProjectCard';
 import ProjectModal from './ProjectModal';
 import { getContainerPaddingClasses, getSectionSpacingClasses } from '@/lib/breakpoints';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import RevealText from './ui/RevealText';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const categories: { label: string; value: ProjectCategory | 'all' }[] = [
   { label: 'All Projects', value: 'all' },
@@ -18,6 +23,7 @@ const categories: { label: string; value: ProjectCategory | 'all' }[] = [
 export default function ProjectsShowcase() {
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory | 'all'>('all');
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const filteredProjects =
     selectedCategory === 'all'
@@ -28,18 +34,41 @@ export default function ProjectsShowcase() {
     ? PROJECTS.find((p) => p.id === selectedProjectId)
     : null;
 
+  useEffect(() => {
+    // Refresh ScrollTrigger when category changes (which changes grid content)
+    // Allow a small delay for DOM to update
+    const timer = setTimeout(() => {
+      if (!containerRef.current) return;
+
+      const ctx = gsap.context(() => {
+        ScrollTrigger.batch(".project-card-item", {
+          onEnter: batch => gsap.to(batch, { autoAlpha: 1, y: 0, stagger: 0.15, overwrite: true }),
+          start: "top 95%", // Trigger earlier
+          once: true // Only animate once
+        });
+      }, containerRef);
+
+      return () => ctx.revert();
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [selectedCategory]);
+
   return (
     <section id="projects" className={`min-h-screen bg-gray-50 ${getSectionSpacingClasses()}`}>
-      <div className={`container mx-auto ${getContainerPaddingClasses()}`}>
+      <div ref={containerRef} className={`container mx-auto ${getContainerPaddingClasses()}`}>
         {/* Section Header */}
-        <div className="text-center mb-10 md:mb-12">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4">
-            Our <span className="text-gold">Projects</span>
-          </h2>
-          <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto px-4">
-            Explore our portfolio of completed projects showcasing excellence in construction
-            and design across various sectors.
-          </p>
+        <div className="text-center mb-12 md:mb-16">
+          <div className="mb-4 md:mb-6">
+            <RevealText tag="h2" className="text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tight text-black drop-shadow-sm">
+              Our <span className="text-gold">Projects</span>
+            </RevealText>
+          </div>
+          <div className="max-w-2xl mx-auto px-4">
+            <RevealText tag="p" delay={0.2} className="text-gray-600 text-base sm:text-lg">
+              Explore our portfolio of completed projects showcasing excellence in construction and design across various sectors.
+            </RevealText>
+          </div>
         </div>
 
         {/* Category Filter */}
@@ -48,11 +77,10 @@ export default function ProjectsShowcase() {
             <button
               key={category.value}
               onClick={() => setSelectedCategory(category.value)}
-              className={`px-4 sm:px-6 py-2 rounded-full font-semibold transition-all duration-300 text-sm sm:text-base ${
-                selectedCategory === category.value
-                  ? 'bg-gold text-black shadow-lg scale-105'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 hover:scale-105'
-              }`}
+              className={`px-4 sm:px-6 py-2 rounded-full font-semibold transition-all duration-300 text-sm sm:text-base ${selectedCategory === category.value
+                ? 'bg-gold text-black shadow-lg scale-105'
+                : 'bg-white text-gray-700 hover:bg-gray-100 hover:scale-105'
+                }`}
             >
               {category.label}
             </button>
@@ -60,17 +88,14 @@ export default function ProjectsShowcase() {
         </div>
 
         {/* Masonry Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-auto min-h-[50vh]">
           {filteredProjects.map((project, index) => (
             <div
               key={project.id}
-              className={`${
+              className={`project-card-item opacity-0 translate-y-[50px] ${
                 // Create masonry effect by varying heights
                 index % 5 === 0 ? 'md:row-span-2' : ''
-              }`}
-              style={{
-                animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`,
-              }}
+                }`}
             >
               <ProjectCard
                 project={project}
@@ -95,19 +120,6 @@ export default function ProjectsShowcase() {
           onClose={() => setSelectedProjectId(null)}
         />
       )}
-
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </section>
   );
 }

@@ -6,6 +6,7 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import Footer from "@/components/Footer";
 import ClientLayout from "@/components/ClientLayout";
 import { NavigationSection } from "@/types";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,12 +57,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ClientLayout>
-          <Navigation sections={navigationSections} />
-          <MobileBottomNav sections={navigationSections} />
-          <main>{children}</main>
-          <Footer />
-        </ClientLayout>
+        <SmoothScroll>
+          <ClientLayout>
+            <Navigation sections={navigationSections} />
+            <MobileBottomNav sections={navigationSections} />
+            <main>{children}</main>
+            <Footer />
+          </ClientLayout>
+        </SmoothScroll>
       </body>
     </html>
   );

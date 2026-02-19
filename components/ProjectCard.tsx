@@ -80,21 +80,21 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       <div className="relative aspect-[4/3] bg-gray-200 overflow-hidden">
         {isVisible && (
           <>
+            {/* Image with immediate loading if in viewport */}
             <img
               src={project.thumbnail.url}
               alt={project.thumbnail.alt}
-              loading="lazy"
+              // Removed loading="lazy" to rely on IntersectionObserver visibility
               onLoad={handleImageLoad}
-              className={`w-full h-full object-cover transition-all duration-500 ${
-                isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-110'
-              } ${isHovered && !prefersReducedMotion ? 'scale-110' : 'scale-100'}`}
-              style={{ transitionDuration: prefersReducedMotion ? '0.01ms' : '500ms' }}
+              onError={() => setIsLoaded(true)} // Don't get stuck on error
+              className={`w-full h-full object-cover transition-all duration-700 ${isLoaded ? 'opacity-100 scale-100 blur-none' : 'opacity-0 scale-110 blur-sm'
+                } ${isHovered && !prefersReducedMotion ? 'scale-110' : 'scale-100'}`}
+              style={{ transitionDuration: prefersReducedMotion ? '0.01ms' : '700ms' }}
             />
-            {/* Gold Overlay on Hover */}
+            {/* Gold Overlay on Hover with better gradient */}
             <div
-              className={`absolute inset-0 bg-gold transition-opacity duration-300 ${
-                isHovered ? 'opacity-30' : 'opacity-0'
-              }`}
+              className={`absolute inset-0 bg-gradient-to-t from-gold/40 to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'
+                }`}
               style={{ transitionDuration: prefersReducedMotion ? '0.01ms' : '300ms' }}
             />
           </>
@@ -108,9 +108,8 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
       {/* Project Details Overlay */}
       <div
-        className={`absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent flex flex-col justify-end p-6 transition-opacity duration-300 ${
-          isHovered ? 'opacity-100' : 'opacity-0'
-        }`}
+        className={`absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent flex flex-col justify-end p-6 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'
+          }`}
         style={{ transitionDuration: prefersReducedMotion ? '0.01ms' : '300ms' }}
       >
         <div className="transform transition-transform duration-300" style={{
@@ -131,9 +130,8 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
       {/* Gold Border Effect */}
       <div
-        className={`absolute inset-0 border-2 border-gold transition-opacity duration-300 pointer-events-none ${
-          isHovered ? 'opacity-100' : 'opacity-0'
-        }`}
+        className={`absolute inset-0 border-2 border-gold transition-opacity duration-300 pointer-events-none ${isHovered ? 'opacity-100' : 'opacity-0'
+          }`}
         style={{
           boxShadow: isHovered && !prefersReducedMotion ? '0 0 20px rgba(212, 175, 55, 0.5)' : 'none',
           transitionDuration: prefersReducedMotion ? '0.01ms' : '300ms',

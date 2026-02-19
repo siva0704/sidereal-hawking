@@ -1,32 +1,17 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import AnimatedCounter from './AnimatedCounter';
 import ParticleBackground from './ParticleBackground';
 import { getContainerPaddingClasses, getSectionSpacingClasses } from '@/lib/breakpoints';
+import RevealText from './ui/RevealText';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutSection() {
-  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   const stats = [
     { value: 500, suffix: '+', label: 'Projects Completed', delay: 0 },
@@ -72,57 +57,31 @@ export default function AboutSection() {
 
       <div className={`container mx-auto relative z-10 ${getContainerPaddingClasses()}`}>
         {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <h2
-            className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 transition-all duration-1000 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-          >
-            About <span className="text-gold">Us</span>
-          </h2>
-          <p
-            className={`text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto px-4 transition-all duration-1000 delay-200 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-          >
-            Building excellence through innovation, quality craftsmanship, and unwavering commitment
-            to our clients' vision
-          </p>
-        </div>
-
-        {/* Company Story */}
-        <div
-          className={`max-w-4xl mx-auto mb-16 md:mb-20 transition-all duration-1000 delay-400 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
-        >
-          <div className="bg-gradient-to-br from-gray-50 to-white p-6 sm:p-8 md:p-12 rounded-2xl shadow-xl border border-gray-200">
-            <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-4 md:mb-6">
-              <span className="text-gold font-bold text-xl sm:text-2xl">SB Infra Projects</span> is a leading
-              construction company with over 15 years of experience in delivering exceptional
-              building solutions. From residential homes to large-scale commercial developments, we
-              bring expertise, innovation, and dedication to every project.
-            </p>
-            <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-              Our team of skilled professionals combines traditional craftsmanship with modern
-              technology to create spaces that inspire, function beautifully, and stand the test of
-              time. We pride ourselves on our attention to detail, commitment to quality, and
-              ability to turn our clients' visions into reality.
-            </p>
+        <div className="text-center mb-24 md:mb-32">
+          <div className="mb-8">
+            <RevealText tag="span" className="text-gold text-sm md:text-base tracking-[0.4em] font-bold uppercase">
+              WHO WE ARE
+            </RevealText>
+          </div>
+          <RevealText tag="h2" delay={0.2} className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-light text-black leading-tight max-w-5xl mx-auto px-4 tracking-tight">
+            We are the <span className="font-serif italic text-gold">architects of permanence</span>. In a world of fleeting trends, we build spaces that stand the test of time.
+          </RevealText>
+          <div className="mt-12 max-w-3xl mx-auto">
+            <RevealText tag="p" delay={0.4} className="text-xl text-gray-500 font-light leading-relaxed">
+              LuxeBuild bridges the gap between raw engineering reliability and exquisite luxury design.
+            </RevealText>
           </div>
         </div>
 
+        {/* Company Story - Removed as per reference style, text is now in header */}
+        {/* <div className="max-w-4xl mx-auto mb-16 md:mb-20"> ... </div> */}
+
         {/* Statistics Grid */}
-        <div
-          className={`grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-16 md:mb-20 transition-all duration-1000 delay-600 ${
-            isVisible ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-16 md:mb-20">
           {stats.map((stat, index) => (
             <div
               key={index}
               className="text-center p-4 sm:p-6 bg-gradient-to-br from-black to-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105"
-              style={{ animationDelay: `${stat.delay}ms` }}
             >
               <AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2000} />
               <div className="text-gray-300 mt-2 md:mt-3 text-xs sm:text-sm md:text-base font-medium">
@@ -133,33 +92,49 @@ export default function AboutSection() {
         </div>
 
         {/* Mission, Vision, Values */}
-        <div
-          className={`grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 transition-all duration-1000 delay-800 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
-        >
-          {values.map((value, index) => (
-            <div
-              key={index}
-              className="bg-gradient-to-br from-gray-50 to-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-transparent hover:border-gold group"
-            >
-              <div className="text-4xl sm:text-5xl mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
-                {value.icon}
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-black group-hover:text-gold transition-colors duration-300">
-                {value.title}
-              </h3>
-              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{value.description}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+          <div className="bg-white p-8 md:p-10 rounded-none shadow-none border-l-2 border-gold/20 hover:border-gold transition-colors duration-500 group">
+            <div className="text-4xl mb-6 text-gold">
+              🎯
             </div>
-          ))}
+            <h3 className="text-xl font-bold mb-4 text-black uppercase tracking-wider">
+              Our Mission
+            </h3>
+            <p className="text-gray-600 leading-relaxed">
+              To deliver transparent, high-precision construction services that honor the architect's vision and the client's dream. We commit to zero-compromise quality, from the first soil test to the final handover.
+            </p>
+          </div>
+
+          <div className="bg-white p-8 md:p-10 rounded-none shadow-none border-l-2 border-gold/20 hover:border-gold transition-colors duration-500 group">
+            <div className="text-4xl mb-6 text-gold">
+              👁️
+            </div>
+            <h3 className="text-xl font-bold mb-4 text-black uppercase tracking-wider">
+              Our Vision
+            </h3>
+            <p className="text-gray-600 leading-relaxed">
+              To redefine the skyline with structures that embody elegance and resilience. We envision a future where every building is not just a shelter, but a legacy passed down through generations.
+            </p>
+          </div>
+
+          <div className="bg-white p-8 md:p-10 rounded-none shadow-none border-l-2 border-gold/20 hover:border-gold transition-colors duration-500 group">
+            <div className="text-4xl mb-6 text-gold">
+              ⭐
+            </div>
+            <h3 className="text-xl font-bold mb-4 text-black uppercase tracking-wider">
+              Specialties
+            </h3>
+            <ul className="text-gray-600 leading-relaxed space-y-2">
+              <li>Luxury Estates</li>
+              <li>Commercial Landmarks</li>
+              <li>Sustainable Living</li>
+              <li>Restoration</li>
+            </ul>
+          </div>
         </div>
 
         {/* Call to Action */}
-        <div
-          className={`text-center mt-12 md:mt-16 px-4 transition-all duration-1000 delay-1000 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
-        >
+        <div className="text-center mt-12 md:mt-16 px-4">
           <p className="text-gray-600 mb-4 md:mb-6 text-base sm:text-lg">
             Ready to start your construction project with a trusted partner?
           </p>

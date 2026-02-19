@@ -1,5 +1,7 @@
 'use client';
 
+import RevealText from './ui/RevealText';
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -9,42 +11,29 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-2xl font-bold text-gold mb-4">SB INFRA PROJECTS</h3>
-            <p className="text-gray-400">
-              Building excellence through innovation and quality craftsmanship.
-            </p>
+            <RevealText tag="h3" className="text-3xl font-extrabold text-white mb-6 tracking-tighter">LUXE<span className="text-gold">BUILD</span></RevealText>
+            <RevealText tag="p" delay={0.2} className="text-gray-400 max-w-xs leading-relaxed">
+              Crafting Reality. We speak the language of engineering and luxury.
+            </RevealText>
           </div>
 
-          {/* Quick Links */}
+          {/* Services */}
           <div>
-            <h4 className="text-lg font-semibold text-gold mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              <li>
-                <a href="#services" className="text-gray-400 hover:text-gold transition-colors">
-                  Services
-                </a>
-              </li>
-              <li>
-                <a href="#process" className="text-gray-400 hover:text-gold transition-colors">
-                  Our Process
-                </a>
-              </li>
-              <li>
-                <a href="#projects" className="text-gray-400 hover:text-gold transition-colors">
-                  Projects
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="text-gray-400 hover:text-gold transition-colors">
-                  Contact
-                </a>
-              </li>
+            <RevealText tag="h4" delay={0.1} className="text-lg font-bold text-white mb-6 uppercase tracking-wider">Services</RevealText>
+            <ul className="space-y-3">
+              {['Structured Planning', 'Architectural Design', 'Consultancy', 'Construction'].map((item, i) => (
+                <li key={item}>
+                  <a href="#" className="text-gray-400 hover:text-gold transition-colors block text-sm">
+                    {item}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold text-gold mb-4">Contact Us</h4>
+            <RevealText tag="h4" delay={0.2} className="text-lg font-semibold text-gold mb-4">Contact Us</RevealText>
             <ul className="space-y-2 text-gray-400">
               <li>Email: info@sbinfra.com</li>
               <li>Phone: +1 (555) 123-4567</li>
