@@ -70,7 +70,7 @@ export default function AboutSection() {
           </RevealText>
           <div className="mt-12 max-w-3xl mx-auto">
             <RevealText tag="p" delay={0.4} className="text-xl text-gray-500 font-light leading-relaxed">
-              LuxeBuild bridges the gap between raw engineering reliability and exquisite luxury design.
+              SB Infra Projects bridges the gap between raw engineering reliability and exquisite luxury design.
             </RevealText>
           </div>
         </div>
