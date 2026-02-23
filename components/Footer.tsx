@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
-            <RevealText tag="h3" className="text-3xl font-extrabold text-white mb-6 tracking-tighter">SB <span className="text-gold">INFRA</span></RevealText>
+            <RevealText tag="h3" className="text-3xl font-extrabold text-white mb-6 tracking-tighter">SB INFRA <span className="text-gold">PROJECTS</span></RevealText>
             <RevealText tag="p" delay={0.2} className="text-gray-400 max-w-xs leading-relaxed">
               We create durable, well-engineered structures with predictable timelines and transparent costing.
             </RevealText>
