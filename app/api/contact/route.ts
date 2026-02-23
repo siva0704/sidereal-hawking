@@ -6,8 +6,8 @@ const contactSchema = z.object({
   name: z.string().min(2).max(100),
   email: z.string().email(),
   phone: z.string().optional(),
-  projectType: z.string().min(1),
-  budget: z.string().optional(),
+  serviceType: z.string().min(1),
+  location: z.string().min(2),
   message: z.string().min(10).max(1000),
 });
 
@@ -30,15 +30,15 @@ setInterval(() => {
 function getClientIP(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for');
   const realIP = request.headers.get('x-real-ip');
-  
+
   if (forwarded) {
     return forwarded.split(',')[0].trim();
   }
-  
+
   if (realIP) {
     return realIP;
   }
-  
+
   return 'unknown';
 }
 
@@ -48,9 +48,9 @@ function getClientIP(request: NextRequest): string {
 function checkRateLimit(ip: string): { allowed: boolean; resetTime?: number } {
   const now = Date.now();
   const oneHour = 60 * 60 * 1000;
-  
+
   const entry = rateLimitStore.get(ip);
-  
+
   if (!entry || now > entry.resetTime) {
     // First submission or expired window
     rateLimitStore.set(ip, {
@@ -59,16 +59,16 @@ function checkRateLimit(ip: string): { allowed: boolean; resetTime?: number } {
     });
     return { allowed: true };
   }
-  
+
   if (entry.count >= 3) {
     // Rate limit exceeded
     return { allowed: false, resetTime: entry.resetTime };
   }
-  
+
   // Increment count
   entry.count += 1;
   rateLimitStore.set(ip, entry);
-  
+
   return { allowed: true };
 }
 
@@ -91,8 +91,8 @@ function sanitizeFormData(data: any): any {
     name: sanitizeString(data.name),
     email: sanitizeString(data.email),
     phone: data.phone ? sanitizeString(data.phone) : '',
-    projectType: sanitizeString(data.projectType),
-    budget: data.budget ? sanitizeString(data.budget) : '',
+    serviceType: sanitizeString(data.serviceType),
+    location: sanitizeString(data.location),
     message: sanitizeString(data.message),
   };
 }
@@ -101,13 +101,13 @@ export async function POST(request: NextRequest) {
   try {
     // Get client IP for rate limiting
     const clientIP = getClientIP(request);
-    
+
     // Check rate limit
     const rateLimitResult = checkRateLimit(clientIP);
     if (!rateLimitResult.allowed) {
       const resetTime = rateLimitResult.resetTime || Date.now();
       const minutesUntilReset = Math.ceil((resetTime - Date.now()) / (60 * 1000));
-      
+
       return NextResponse.json(
         {
           success: false,
@@ -117,16 +117,16 @@ export async function POST(request: NextRequest) {
         { status: 429 }
       );
     }
-    
+
     // Parse request body
     const body = await request.json();
-    
+
     // Sanitize input data
     const sanitizedData = sanitizeFormData(body);
-    
+
     // Validate sanitized data
     const validationResult = contactSchema.safeParse(sanitizedData);
-    
+
     if (!validationResult.success) {
       return NextResponse.json(
         {
@@ -138,24 +138,24 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     const validatedData = validationResult.data;
-    
+
     // Here you would typically:
     // 1. Save to database
     // 2. Send email notification
     // 3. Integrate with CRM
     // For now, we'll just log and return success
-    
+
     console.log('Contact form submission:', {
       ...validatedData,
       timestamp: new Date().toISOString(),
       ip: clientIP,
     });
-    
+
     // Simulate processing delay
     await new Promise((resolve) => setTimeout(resolve, 500));
-    
+
     // Return success response
     return NextResponse.json(
       {
@@ -165,10 +165,10 @@ export async function POST(request: NextRequest) {
       },
       { status: 200 }
     );
-    
+
   } catch (error) {
     console.error('Contact form submission error:', error);
-    
+
     return NextResponse.json(
       {
         success: false,

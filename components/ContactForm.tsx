@@ -3,6 +3,7 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { z } from 'zod';
 import Confetti from './Confetti';
+import MagneticButton from './ui/MagneticButton';
 
 // Stricter email validation regex
 // Requires: local-part @ domain . tld
@@ -18,8 +19,8 @@ const contactSchema = z.object({
     .min(1, 'Email is required')
     .regex(EMAIL_REGEX, 'Please enter a valid email address'),
   phone: z.string().min(10, 'Phone number must be at least 10 digits').optional().or(z.literal('')),
-  projectType: z.string().min(1, 'Please select a project type'),
-  budget: z.string().optional(),
+  serviceType: z.string().min(1, 'Please select a service type'),
+  location: z.string().min(2, 'Location is required'),
   message: z.string().min(10, 'Message must be at least 10 characters').max(1000, 'Message is too long'),
 });
 
@@ -34,8 +35,8 @@ export default function ContactForm() {
     name: '',
     email: '',
     phone: '',
-    projectType: '',
-    budget: '',
+    serviceType: '',
+    location: '',
     message: '',
   });
 
@@ -48,7 +49,7 @@ export default function ContactForm() {
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    
+
     // Clear error for this field when user starts typing
     if (errors[name]) {
       setErrors((prev) => {
@@ -80,7 +81,7 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -123,11 +124,11 @@ export default function ContactForm() {
         name: '',
         email: '',
         phone: '',
-        projectType: '',
-        budget: '',
+        serviceType: '',
+        location: '',
         message: '',
       });
-      
+
       // Reset success message and confetti after 5 seconds
       setTimeout(() => {
         setSubmitStatus('idle');
@@ -143,31 +144,22 @@ export default function ContactForm() {
     }
   };
 
-  const projectTypes = [
+  const serviceTypes = [
     'Residential Construction',
-    'Commercial Project',
-    'Industrial Facility',
+    'Commercial Projects',
+    'Industrial Facilities',
     'Renovation & Remodeling',
     'Infrastructure Development',
     'Construction Consulting',
+    'Turnkey Civil Works',
     'Other',
-  ];
-
-  const budgetRanges = [
-    'Under $50,000',
-    '$50,000 - $100,000',
-    '$100,000 - $250,000',
-    '$250,000 - $500,000',
-    '$500,000 - $1,000,000',
-    'Over $1,000,000',
-    'Not Sure',
   ];
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Confetti Animation on Success */}
       {showConfetti && <Confetti />}
-      
+
       {/* Name Field */}
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
@@ -181,13 +173,12 @@ export default function ContactForm() {
           onChange={handleChange}
           onFocus={() => setFocusedField('name')}
           onBlur={() => setFocusedField(null)}
-          className={`w-full px-4 py-3 bg-gray-900 border rounded-lg focus:outline-none transition-all duration-300 ${
-            errors.name
-              ? 'border-red-500 focus:border-red-500'
-              : focusedField === 'name'
+          className={`w-full px-4 py-3 bg-gray-900 border rounded-lg focus:outline-none transition-all duration-300 ${errors.name
+            ? 'border-red-500 focus:border-red-500'
+            : focusedField === 'name'
               ? 'border-gold focus:border-gold shadow-lg shadow-gold/20 animate-input-focus'
               : 'border-gray-700 focus:border-gold'
-          }`}
+            }`}
           placeholder="John Doe"
         />
         {errors.name && <p className="mt-2 text-sm text-red-500 animate-shake">{errors.name}</p>}
@@ -206,13 +197,12 @@ export default function ContactForm() {
           onChange={handleChange}
           onFocus={() => setFocusedField('email')}
           onBlur={() => setFocusedField(null)}
-          className={`w-full px-4 py-3 bg-gray-900 border rounded-lg focus:outline-none transition-all duration-300 ${
-            errors.email
-              ? 'border-red-500 focus:border-red-500'
-              : focusedField === 'email'
+          className={`w-full px-4 py-3 bg-gray-900 border rounded-lg focus:outline-none transition-all duration-300 ${errors.email
+            ? 'border-red-500 focus:border-red-500'
+            : focusedField === 'email'
               ? 'border-gold focus:border-gold shadow-lg shadow-gold/20 animate-input-focus'
               : 'border-gray-700 focus:border-gold'
-          }`}
+            }`}
           placeholder="john@example.com"
         />
         {errors.email && <p className="mt-2 text-sm text-red-500 animate-shake">{errors.email}</p>}
@@ -231,73 +221,68 @@ export default function ContactForm() {
           onChange={handleChange}
           onFocus={() => setFocusedField('phone')}
           onBlur={() => setFocusedField(null)}
-          className={`w-full px-4 py-3 bg-gray-900 border rounded-lg focus:outline-none transition-all duration-300 ${
-            errors.phone
-              ? 'border-red-500 focus:border-red-500'
-              : focusedField === 'phone'
+          className={`w-full px-4 py-3 bg-gray-900 border rounded-lg focus:outline-none transition-all duration-300 ${errors.phone
+            ? 'border-red-500 focus:border-red-500'
+            : focusedField === 'phone'
               ? 'border-gold focus:border-gold shadow-lg shadow-gold/20 animate-input-focus'
               : 'border-gray-700 focus:border-gold'
-          }`}
+            }`}
           placeholder="+1 (555) 123-4567"
         />
         {errors.phone && <p className="mt-2 text-sm text-red-500 animate-shake">{errors.phone}</p>}
       </div>
 
-      {/* Project Type Field */}
+      {/* Service Type Field */}
       <div>
-        <label htmlFor="projectType" className="block text-sm font-medium text-gray-300 mb-2">
-          Project Type *
+        <label htmlFor="serviceType" className="block text-sm font-medium text-gray-300 mb-2">
+          Service Type *
         </label>
         <select
-          id="projectType"
-          name="projectType"
-          value={formData.projectType}
+          id="serviceType"
+          name="serviceType"
+          value={formData.serviceType}
           onChange={handleChange}
-          onFocus={() => setFocusedField('projectType')}
+          onFocus={() => setFocusedField('serviceType')}
           onBlur={() => setFocusedField(null)}
-          className={`w-full px-4 py-3 bg-gray-900 border rounded-lg focus:outline-none transition-all duration-300 ${
-            errors.projectType
-              ? 'border-red-500 focus:border-red-500'
-              : focusedField === 'projectType'
+          className={`w-full px-4 py-3 bg-gray-900 border rounded-lg focus:outline-none transition-all duration-300 ${errors.serviceType
+            ? 'border-red-500 focus:border-red-500'
+            : focusedField === 'serviceType'
               ? 'border-gold focus:border-gold shadow-lg shadow-gold/20 animate-input-focus'
               : 'border-gray-700 focus:border-gold'
-          }`}
+            }`}
         >
-          <option value="">Select a project type</option>
-          {projectTypes.map((type) => (
+          <option value="">Select a service type</option>
+          {serviceTypes.map((type) => (
             <option key={type} value={type}>
               {type}
             </option>
           ))}
         </select>
-        {errors.projectType && <p className="mt-2 text-sm text-red-500 animate-shake">{errors.projectType}</p>}
+        {errors.serviceType && <p className="mt-2 text-sm text-red-500 animate-shake">{errors.serviceType}</p>}
       </div>
 
-      {/* Budget Field */}
+      {/* Location Field */}
       <div>
-        <label htmlFor="budget" className="block text-sm font-medium text-gray-300 mb-2">
-          Estimated Budget
+        <label htmlFor="location" className="block text-sm font-medium text-gray-300 mb-2">
+          Project Location *
         </label>
-        <select
-          id="budget"
-          name="budget"
-          value={formData.budget}
+        <input
+          type="text"
+          id="location"
+          name="location"
+          value={formData.location}
           onChange={handleChange}
-          onFocus={() => setFocusedField('budget')}
+          onFocus={() => setFocusedField('location')}
           onBlur={() => setFocusedField(null)}
-          className={`w-full px-4 py-3 bg-gray-900 border rounded-lg focus:outline-none transition-all duration-300 ${
-            focusedField === 'budget'
+          className={`w-full px-4 py-3 bg-gray-900 border rounded-lg focus:outline-none transition-all duration-300 ${errors.location
+            ? 'border-red-500 focus:border-red-500'
+            : focusedField === 'location'
               ? 'border-gold focus:border-gold shadow-lg shadow-gold/20 animate-input-focus'
               : 'border-gray-700 focus:border-gold'
-          }`}
-        >
-          <option value="">Select a budget range</option>
-          {budgetRanges.map((range) => (
-            <option key={range} value={range}>
-              {range}
-            </option>
-          ))}
-        </select>
+            }`}
+          placeholder="Enter project location"
+        />
+        {errors.location && <p className="mt-2 text-sm text-red-500 animate-shake">{errors.location}</p>}
       </div>
 
       {/* Message Field */}
@@ -313,52 +298,52 @@ export default function ContactForm() {
           onFocus={() => setFocusedField('message')}
           onBlur={() => setFocusedField(null)}
           rows={5}
-          className={`w-full px-4 py-3 bg-gray-900 border rounded-lg focus:outline-none transition-all duration-300 resize-none ${
-            errors.message
-              ? 'border-red-500 focus:border-red-500'
-              : focusedField === 'message'
+          className={`w-full px-4 py-3 bg-gray-900 border rounded-lg focus:outline-none transition-all duration-300 resize-none ${errors.message
+            ? 'border-red-500 focus:border-red-500'
+            : focusedField === 'message'
               ? 'border-gold focus:border-gold shadow-lg shadow-gold/20 animate-input-focus'
               : 'border-gray-700 focus:border-gold'
-          }`}
+            }`}
           placeholder="Tell us about your project..."
         />
         {errors.message && <p className="mt-2 text-sm text-red-500 animate-shake">{errors.message}</p>}
       </div>
 
       {/* Submit Button */}
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className={`w-full py-4 px-8 rounded-lg font-bold text-lg transition-all duration-300 ${
-          isSubmitting
-            ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+      <div className="w-full">
+        <MagneticButton
+          type="submit"
+          wrapperClassName="w-full"
+          className={`w-full py-4 px-8 rounded-lg font-bold text-lg transition-all duration-300 border-none ${isSubmitting
+            ? 'bg-gray-700 text-gray-400 cursor-not-allowed pointer-events-none'
             : 'bg-gold text-black hover:bg-gold-light hover:scale-105 hover:shadow-2xl hover:shadow-gold/50'
-        }`}
-      >
-        {isSubmitting ? (
-          <span className="flex items-center justify-center gap-3">
-            <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-                fill="none"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
-            Sending...
-          </span>
-        ) : (
-          'Send Message'
-        )}
-      </button>
+            }`}
+        >
+          {isSubmitting ? (
+            <span className="flex items-center justify-center gap-3">
+              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  fill="none"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </svg>
+              Sending...
+            </span>
+          ) : (
+            'Send Message'
+          )}
+        </MagneticButton>
+      </div>
 
       {/* Success/Error Messages */}
       {submitStatus === 'success' && (

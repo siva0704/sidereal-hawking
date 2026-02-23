@@ -7,6 +7,8 @@ import { getContainerPaddingClasses, getSectionSpacingClasses } from '@/lib/brea
 import RevealText from './ui/RevealText';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import MagneticWrapper from './ui/MagneticWrapper';
+import MagneticButton from './ui/MagneticButton';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,7 +17,7 @@ export default function AboutSection() {
 
   const stats = [
     { value: 500, suffix: '+', label: 'Projects Completed', delay: 0 },
-    { value: 15, suffix: '+', label: 'Years Experience', delay: 200 },
+    { value: 15, suffix: '+', label: 'Years of Experience', delay: 200 },
     { value: 100, suffix: '%', label: 'Client Satisfaction', delay: 400 },
     { value: 50, suffix: '+', label: 'Expert Team Members', delay: 600 },
   ];
@@ -25,19 +27,19 @@ export default function AboutSection() {
       icon: '🎯',
       title: 'Our Mission',
       description:
-        'To deliver exceptional construction services that exceed expectations, building lasting relationships through quality, innovation, and integrity.',
+        'To deliver precision-built spaces with transparent processes and uncompromised engineering quality.',
     },
     {
       icon: '👁️',
       title: 'Our Vision',
       description:
-        'To be the most trusted construction partner, recognized for transforming spaces and communities through sustainable, innovative building solutions.',
+        'To redefine construction with disciplined execution, ethical practices, and long-term structural reliability.',
     },
     {
       icon: '⭐',
-      title: 'Our Values',
+      title: 'Specialties',
       description:
-        'Excellence, Integrity, Innovation, Safety, and Sustainability guide every decision we make and every project we undertake.',
+        'Luxury Homes, Commercial Complexes, Industrial Facilities, Renovation & Remodeling, Turnkey Civil Works.',
     },
   ];
 
@@ -93,44 +95,51 @@ export default function AboutSection() {
 
         {/* Mission, Vision, Values */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-          <div className="bg-white p-8 md:p-10 rounded-none shadow-none border-l-2 border-gold/20 hover:border-gold transition-colors duration-500 group">
-            <div className="text-4xl mb-6 text-gold">
-              🎯
+          <MagneticWrapper className="h-full">
+            <div className="bg-white p-8 md:p-10 rounded-none shadow-none border-l-2 border-gold/20 hover:border-gold transition-colors duration-500 group h-full">
+              <div className="text-4xl mb-6 text-gold">
+                🎯
+              </div>
+              <h3 className="text-xl font-bold mb-4 text-black uppercase tracking-wider">
+                Our Mission
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                To deliver precision-built spaces with transparent processes and uncompromised engineering quality.
+              </p>
             </div>
-            <h3 className="text-xl font-bold mb-4 text-black uppercase tracking-wider">
-              Our Mission
-            </h3>
-            <p className="text-gray-600 leading-relaxed">
-              To deliver transparent, high-precision construction services that honor the architect's vision and the client's dream. We commit to zero-compromise quality, from the first soil test to the final handover.
-            </p>
-          </div>
+          </MagneticWrapper>
 
-          <div className="bg-white p-8 md:p-10 rounded-none shadow-none border-l-2 border-gold/20 hover:border-gold transition-colors duration-500 group">
-            <div className="text-4xl mb-6 text-gold">
-              👁️
+          <MagneticWrapper className="h-full">
+            <div className="bg-white p-8 md:p-10 rounded-none shadow-none border-l-2 border-gold/20 hover:border-gold transition-colors duration-500 group h-full">
+              <div className="text-4xl mb-6 text-gold">
+                👁️
+              </div>
+              <h3 className="text-xl font-bold mb-4 text-black uppercase tracking-wider">
+                Our Vision
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                To redefine construction with disciplined execution, ethical practices, and long-term structural reliability.
+              </p>
             </div>
-            <h3 className="text-xl font-bold mb-4 text-black uppercase tracking-wider">
-              Our Vision
-            </h3>
-            <p className="text-gray-600 leading-relaxed">
-              To redefine the skyline with structures that embody elegance and resilience. We envision a future where every building is not just a shelter, but a legacy passed down through generations.
-            </p>
-          </div>
+          </MagneticWrapper>
 
-          <div className="bg-white p-8 md:p-10 rounded-none shadow-none border-l-2 border-gold/20 hover:border-gold transition-colors duration-500 group">
-            <div className="text-4xl mb-6 text-gold">
-              ⭐
+          <MagneticWrapper className="h-full">
+            <div className="bg-white p-8 md:p-10 rounded-none shadow-none border-l-2 border-gold/20 hover:border-gold transition-colors duration-500 group h-full">
+              <div className="text-4xl mb-6 text-gold">
+                ⭐
+              </div>
+              <h3 className="text-xl font-bold mb-4 text-black uppercase tracking-wider">
+                Specialties
+              </h3>
+              <ul className="text-gray-600 leading-relaxed space-y-2">
+                <li>Luxury Homes</li>
+                <li>Commercial Complexes</li>
+                <li>Industrial Facilities</li>
+                <li>Renovation & Remodeling</li>
+                <li>Turnkey Civil Works</li>
+              </ul>
             </div>
-            <h3 className="text-xl font-bold mb-4 text-black uppercase tracking-wider">
-              Specialties
-            </h3>
-            <ul className="text-gray-600 leading-relaxed space-y-2">
-              <li>Luxury Estates</li>
-              <li>Commercial Landmarks</li>
-              <li>Sustainable Living</li>
-              <li>Restoration</li>
-            </ul>
-          </div>
+          </MagneticWrapper>
         </div>
 
         {/* Call to Action */}
@@ -138,15 +147,15 @@ export default function AboutSection() {
           <p className="text-gray-600 mb-4 md:mb-6 text-base sm:text-lg">
             Ready to start your construction project with a trusted partner?
           </p>
-          <button
+          <MagneticButton
             onClick={() => {
               const element = document.getElementById('contact');
               element?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="px-6 sm:px-8 py-3 sm:py-4 bg-gold text-black font-bold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gold/50 text-sm sm:text-base"
+            className="px-6 sm:px-8 py-3 sm:py-4 bg-gold text-black font-bold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gold/50 text-sm sm:text-base border-none"
           >
             Let's Build Together
-          </button>
+          </MagneticButton>
         </div>
       </div>
     </section>

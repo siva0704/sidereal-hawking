@@ -22,7 +22,7 @@ const navigationSections: NavigationSection[] = [
   { id: 'hero', label: 'Home', href: '#hero' },
   { id: 'services', label: 'Services', href: '#services' },
   { id: 'process', label: 'Process', href: '#process' },
-  { id: 'projects', label: 'Projects', href: '#projects' },
+  // { id: 'projects', label: 'Projects', href: '#projects' },
   { id: 'about', label: 'About', href: '#about' },
   { id: 'contact', label: 'Contact', href: '#contact' },
 ];

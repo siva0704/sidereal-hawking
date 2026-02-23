@@ -40,7 +40,7 @@ export const BUILDING_PHASES: ProcessPhase[] = [
     id: 'planning',
     title: 'Phase 3 - Planning',
     steps: [
-      'Contract, Schedule and Signing',
+      'Contract & Scheduling',
       'Construction Partner Allocation',
       'Project Manager Assignment'
     ],
@@ -90,73 +90,73 @@ export const SERVICES = [
   {
     id: 'residential',
     title: 'Residential Construction',
-    description: 'Custom homes, villas, and apartment complexes built with precision and care for modern living.',
+    description: 'Custom homes, villas, and premium residences built with structural accuracy.',
     icon: '🏠',
     features: [
-      'Custom Home Design',
-      'Villa Construction',
-      'Apartment Complexes',
-      'Interior Finishing'
+      'Architectural planning',
+      'Turnkey execution',
+      'Premium materials',
+      'Quality-controlled delivery'
     ]
   },
   {
     id: 'commercial',
     title: 'Commercial Projects',
-    description: 'Office buildings, retail spaces, and commercial complexes designed for business success.',
+    description: 'End-to-end construction for offices and commercial buildings.',
     icon: '🏢',
     features: [
-      'Office Buildings',
-      'Retail Spaces',
-      'Shopping Centers',
-      'Mixed-Use Developments'
+      'Design & compliance',
+      'Scalable execution',
+      'Cost-optimized',
+      'Timely delivery'
     ]
   },
   {
     id: 'industrial',
     title: 'Industrial Facilities',
-    description: 'Warehouses, factories, and industrial complexes built for efficiency and durability.',
+    description: 'Durable and efficient industrial structures.',
     icon: '🏭',
     features: [
-      'Warehouse Construction',
-      'Factory Buildings',
-      'Storage Facilities',
-      'Industrial Parks'
+      'Warehouses',
+      'Factories & units',
+      'Heavy-duty foundations',
+      'Compliance-driven build'
     ]
   },
   {
     id: 'renovation',
     title: 'Renovation & Remodeling',
-    description: 'Transform existing spaces with expert renovation and modernization services.',
+    description: 'Modern upgrades for existing spaces.',
     icon: '🔨',
     features: [
-      'Home Renovations',
-      'Office Remodeling',
-      'Structural Upgrades',
-      'Modernization'
+      'Structural changes',
+      'Interior redesign',
+      'Full refurbishments',
+      'Utility enhancements'
     ]
   },
   {
     id: 'infrastructure',
     title: 'Infrastructure Development',
-    description: 'Roads, bridges, and public infrastructure projects that connect communities.',
+    description: 'Civil works backed by long-term durability.',
     icon: '🛣️',
     features: [
-      'Road Construction',
-      'Bridge Building',
-      'Public Facilities',
-      'Urban Development'
+      'Roads & drainage',
+      'Site development',
+      'Foundations',
+      'Utility systems'
     ]
   },
   {
     id: 'consulting',
     title: 'Construction Consulting',
-    description: 'Expert guidance and project management for all phases of construction.',
+    description: 'Technical guidance for planning and execution.',
     icon: '💼',
     features: [
-      'Project Planning',
-      'Cost Estimation',
-      'Quality Assurance',
-      'Site Management'
+      'BOQ & estimation',
+      'Feasibility studies',
+      'Structural consult',
+      'Project supervision'
     ]
   }
 ] as const;

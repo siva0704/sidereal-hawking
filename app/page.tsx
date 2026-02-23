@@ -29,9 +29,9 @@ export default function Home() {
         </PageLoadAnimator.Item>
 
         {/* Projects Section */}
-        <PageLoadAnimator.Item>
+        {/* <PageLoadAnimator.Item>
           <ProjectsShowcase />
-        </PageLoadAnimator.Item>
+        </PageLoadAnimator.Item> */}
 
         {/* About Section */}
         <PageLoadAnimator.Item>

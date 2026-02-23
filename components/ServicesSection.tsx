@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import ServiceCard from './ServiceCard';
 import GeometricPattern from './GeometricPattern';
+import MagneticButton from './ui/MagneticButton';
 import { SERVICES } from '@/lib/constants';
 import { getContainerPaddingClasses, getSectionSpacingClasses } from '@/lib/breakpoints';
 
@@ -47,20 +48,18 @@ export default function ServicesSection() {
         {/* Section Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2
-            className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 transition-all duration-1000 ${
-              isVisible
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-10'
-            }`}
+            className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 transition-all duration-1000 ${isVisible
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 translate-y-10'
+              }`}
           >
             Our <span className="text-gold">Services</span>
           </h2>
           <p
-            className={`text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto px-4 transition-all duration-1000 delay-200 ${
-              isVisible
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-10'
-            }`}
+            className={`text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto px-4 transition-all duration-1000 delay-200 ${isVisible
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 translate-y-10'
+              }`}
           >
             Comprehensive construction solutions tailored to your needs, from concept to completion
           </p>
@@ -68,9 +67,8 @@ export default function ServicesSection() {
 
         {/* Services Grid */}
         <div
-          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 transition-all duration-1000 delay-400 ${
-            isVisible ? 'opacity-100' : 'opacity-0'
-          }`}
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100' : 'opacity-0'
+            }`}
         >
           {SERVICES.map((service, index) => (
             <ServiceCard
@@ -86,22 +84,21 @@ export default function ServicesSection() {
 
         {/* Call to Action */}
         <div
-          className={`text-center mt-12 md:mt-16 px-4 transition-all duration-1000 delay-600 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
+          className={`text-center mt-12 md:mt-16 px-4 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
         >
           <p className="text-sm sm:text-base text-gray-400 mb-4 md:mb-6">
             Don't see what you're looking for? We offer custom solutions for unique projects.
           </p>
-          <button
+          <MagneticButton
             onClick={() => {
               const element = document.getElementById('contact');
               element?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="px-6 sm:px-8 py-3 sm:py-4 bg-gold text-black font-bold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gold/50 text-sm sm:text-base"
+            className="px-6 sm:px-8 py-3 sm:py-4 bg-gold text-black font-bold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gold/50 text-sm sm:text-base border-none"
           >
             Discuss Your Project
-          </button>
+          </MagneticButton>
         </div>
       </div>
     </section>

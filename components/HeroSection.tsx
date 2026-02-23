@@ -10,6 +10,7 @@ import { useReducedMotion } from '@/lib/animations';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import RevealText from './ui/RevealText';
+import MagneticButton from './ui/MagneticButton';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -125,43 +126,47 @@ export default function HeroSection() {
           {/* Company Logo/Name */}
           <div className="overflow-hidden">
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tighter leading-none mb-4">
-              <RevealText delay={0.2} tag="span" className="inline-block">CONSTRUCTING</RevealText>
+              <RevealText delay={0.2} tag="span" className="inline-block">Build With</RevealText>
             </h1>
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gold via-yellow-200 to-gold tracking-tighter leading-none -mt-2 sm:-mt-4">
-              <RevealText delay={0.5} tag="span" className="inline-block text-gold">LEGACY</RevealText>
+              <RevealText delay={0.5} tag="span" className="inline-block text-gold">Confidence</RevealText>
             </h1>
           </div>
 
           {/* Tagline */}
           <div className="overflow-hidden">
-            <RevealText delay={0.8} tag="p" className="text-sm sm:text-base md:text-xl text-gold font-medium tracking-[0.2em] uppercase">
-              05 COMPLETED PROJECTS | ONGOING PREMIUM DEVELOPMENTS
+            <RevealText delay={0.8} tag="p" className="text-sm sm:text-base md:text-xl text-white font-medium tracking-wide">
+              Premium residential & commercial construction delivered with transparent execution and engineered precision.
+            </RevealText>
+            <RevealText delay={1.0} tag="p" className="mt-4 text-xs sm:text-sm md:text-base text-gold font-bold tracking-[0.2em] uppercase">
+              Trusted • Quality-Driven • On-Time Delivery
             </RevealText>
           </div>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
-            <button
+            <MagneticButton
               onClick={() => {
                 const element = document.getElementById('contact');
-                // Use Lenis for scrolling if available, otherwise fallback
-                // Accessing lenis instance globally if attached to window or via event
                 element?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-8 py-4 bg-gold text-black font-bold rounded-full transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] w-full sm:w-auto"
+              wrapperClassName="w-full sm:w-auto"
+              className="px-8 py-4 bg-gold text-black font-bold rounded-full transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] w-full sm:w-auto border-none"
             >
               Get Started
-            </button>
+            </MagneticButton>
 
-            <button
+            <MagneticButton
               onClick={() => {
                 const element = document.getElementById('projects');
                 element?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-8 py-4 border border-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 hover:bg-white hover:text-black hover:scale-105 w-full sm:w-auto"
+              variant="outline"
+              wrapperClassName="w-full sm:w-auto"
+              className="px-8 py-4 border-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 hover:bg-white hover:text-black hover:scale-105 w-full sm:w-auto"
             >
               View Projects
-            </button>
+            </MagneticButton>
           </div>
         </div>
 
