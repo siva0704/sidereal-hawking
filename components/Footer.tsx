@@ -11,9 +11,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
-            <RevealText tag="h3" className="text-3xl font-extrabold text-white mb-6 tracking-tighter">LUXE<span className="text-gold">BUILD</span></RevealText>
+            <RevealText tag="h3" className="text-3xl font-extrabold text-white mb-6 tracking-tighter">SB <span className="text-gold">INFRA</span></RevealText>
             <RevealText tag="p" delay={0.2} className="text-gray-400 max-w-xs leading-relaxed">
-              Crafting Reality. We speak the language of engineering and luxury.
+              We create durable, well-engineered structures with predictable timelines and transparent costing.
             </RevealText>
           </div>
 
@@ -35,9 +35,9 @@ export default function Footer() {
           <div>
             <RevealText tag="h4" delay={0.2} className="text-lg font-semibold text-gold mb-4">Contact Us</RevealText>
             <ul className="space-y-2 text-gray-400">
-              <li>Email: info@sbinfra.com</li>
-              <li>Phone: +1 (555) 123-4567</li>
-              <li>Address: 123 Construction Ave</li>
+              <li>Email: contact@sbinfraprojects.com</li>
+              <li>Phone: +91 123 456 7890</li>
+              <li>Address: 11/12 Construction Avenue, Bangalore</li>
             </ul>
           </div>
         </div>
